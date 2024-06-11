@@ -6,26 +6,13 @@ dotenv.config({
     path: './env'
 })
 
-connectDB();
-
-/*
-import express from "express";
-const app= express()
-
-(async ()=>{
-    try{
-        await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
-        app.on("error", (error)=>{
-            console("error : ",error);
-            throw error
-        })
-        app.listen(process.env.PORT, ()=>{
-            console.log(`app is listening on port ${process.env.PORT}`);
-        })
-    }catch(error){
-        console.log("error : ", error)
-        throw err
-    }
+connectDB()
+.then(()=>{
+    let connectedPort=process.env.PORT || 8000
+    app.listen( connectedPort, ()=>{ 
+        console.log(`app is listening on ${connectedPort}`)
+    })
 })
-
-*/
+.catch((error)=>{
+    console.log("mongodb connection failed ",error)
+})
