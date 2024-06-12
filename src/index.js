@@ -1,6 +1,9 @@
 // require('dotenv').config({path: './env'})
 import dotenv from "dotenv"
 import connectDB from "./db/index.js";
+import express from "express"
+
+const app=express()
 
 dotenv.config({
     path: './env'
@@ -8,8 +11,8 @@ dotenv.config({
 
 connectDB()
 .then(()=>{
-    let connectedPort=process.env.PORT || 8000
-    app.listen( connectedPort, ()=>{ 
+    const connectedPort=process.env.PORT || 8000
+    app.listen(connectedPort, ()=>{ 
         console.log(`app is listening on ${connectedPort}`)
     })
 })
