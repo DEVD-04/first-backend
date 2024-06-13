@@ -8,7 +8,7 @@ cloudinary.config({
 });
 
 
-// funtion to upload on cloudinary :: local file path as parameter, 
+// funtion to upload on cloudinary :: local file path as parameter, if successfully uploaded then delete from server
 const uploadOnCloudinary = async (localFilePath)=>{
     try{
         if(!localFilePath) return null;
@@ -18,6 +18,7 @@ const uploadOnCloudinary = async (localFilePath)=>{
         })
         //file uploaded successfully
         console.log("file uploaded on cloudinary", response.url);
+        fs.unlink(localFilePath)
         return response;
 
     }catch(error){

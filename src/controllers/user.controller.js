@@ -33,16 +33,24 @@ const registerUser = asyncHandler(async (req,res)=>{
     //check user already exist or not
     // we'll check from database if that user exist or not
     //use user.model as it directly connected to database
-    const existedUser=User.findOne({  //if we want to find by any one attribute then just write the attribute name
+    const existedUser= await User.findOne({  //if we want to find by any one attribute then just write the attribute name
         $or: [{username}, {email}]  //here using or operator if any of them found then it will return that 
     })
     if(existedUser){
         throw new ApiError(409, "User with email or username already exist");
     }
     
-    //check avatar : will get from multer[multer puts file in local server, from that it will go to cloudinary]
+    //check avatar and coverImage : will get from multer [multer puts file in local server, from that it will go to cloudinary]
     const avatarLocalPath=req.files?.avatar[0]?.path  //[0] gives first property, ? means optional(it may not present), path: will give proper path which multer uploaded on public/temp/...
-    const coverImageLocalPath=req.files?coverImage[0]?.path
+    // const coverImageLocalPath=req.files?coverImage[0]?.path     //if there is no coverimage then we are trying to access 0th element, gives error
+
+    //better way
+    let coverImageLocalPath;
+    if(req.files!==null && Array.isArray(req.files.coverImage)
+    && req.files.coverImage.length>0)
+    {
+        coverImageLocalPath=req.files.coverImage[0].path;
+    }
 
     if(!avatarLocalPath){
         throw new ApiError(400, "Avatar file required")
