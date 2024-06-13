@@ -50,7 +50,7 @@ const userSchema = new Schema(
 userSchema.pre("save", async function(next) {       //encrypt algo requires time so use async   
                                                     //here arrow function will not work, because arrow function doesn't know about context('this' keyword)
     if(!this.isModified("password")) return next(); //when password is not modifies, dont do anything
-    this.password=bcrypt.hash(this.password, 10);
+    this.password=await bcrypt.hash(this.password, 10);
     next();                                               
 })   
 
