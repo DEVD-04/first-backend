@@ -23,4 +23,13 @@ app.use(express.static("public"))     //store file folder in my server, anyone c
 app.use(cookieParser())     //to do CRUD on cookies of client browser by server
 
 
+//routes import
+import userRouter from './routes/user.routes.js'
+
+//routes declaration
+//we used app.get when we are not importing route like this
+// now we need to use middleware to use router
+app.use("/api/v1/users", userRouter)
+// real url :: http://localhost:8000/api/v1/users/register
+
 export {app}
