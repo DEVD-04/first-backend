@@ -1,10 +1,10 @@
 
 //verify user basis of access and refresh token
 
-import { ApiError } from "../utils/ApiError";
-import { asyncHandler } from "../utils/asyncHandler";
+import { ApiError } from "../utils/ApiError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken"
-import { User } from "../models/user.model";
+import { User } from "../models/user.model.js";
 
 export const verifyJWT= asyncHandler(async(req,res, next)=>{
     //req,res has cookie details as we did cookie-parser in app.js

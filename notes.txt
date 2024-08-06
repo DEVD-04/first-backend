@@ -1,0 +1,113 @@
+1.do database related works
+(like: url at env file, 
+database_connection functions in db directory, 
+do proper try catch, asyncerror handling)
+
+2. declare dbname in constants
+
+3. in outer index.js :: set dotenv, call database connection function
+if connection successful then using express .listen
+else write error Handler
+
+
+4. do middleware related stuffs like 
+cors, cookie-purser, .json, .urlencoded, .static
+
+app.use(express.json({limit: "16kb"}))  // handle data from json
+app.use(express.urlencoded({extended: true, limit: "16kb"}) //handle data from url
+app.use(express.static("public"))	//handle static data like image,pdf
+
+cors is a fundamental security mechanism implemented by web browsers to prevent unauthorized access to resources on a web page from different origins.
+Node.js applications often serve APIs that need to be consumed by clients running on different origins. Enabling CORS in a Node.js server allows these clients to make requests to the server, even if they originate from different domains
+
+Cookie-parser middleware is used to parse the cookies that are attached to the request made by the client to the server and makes them accessible in the req.cookies object. It makes it easier to access cookie values.
+ [check code]
+
+
+5. do utils code :: asyncerror,asyncHandler
+[check codes]
+
+6. create data models: user and video model[check code comments]
+
+7. write custom methods for data models : like comparing password[use bcrypt]
+
+8. use jwt[//bearer token :: whoever has this token got that specific permission for specific time], generate access token(short time span), generate refresh token(long time span)
+access token:: the time span user can have this token, he can access resources where authentication requires, we can validate user using access token
+refresh token: saved in database and user also gets this. if refresh token matches, then no need to validate, user will be provided access token
+
+
+9. use mongooseAggregatePaginate plugin for video aggregation ["donno usage"]
+
+10. setup cloudinary, fs[file sysy//file system in nodejs, read,write,remove file
+]::  write a method uploadOnCloudinary [check code]	file-->server--uploadOnCloudinary--> fail [unlink from server]	or  success--> uploaded on cloudinary [unlink from server] [return response(url)]
+
+11. we managed to handle json, url, static data. when data comes from form or json we can find it from req.body. but if some file data needs to be handled use multer. [check multer middleware]
+
+
+
+12.using async handler write registeruser code. continue.....
+
+13. in userroute import the registeruser code and start .get .post into specific address
+
+14.in app.js import user router and use as middleware with initial address
+
+15. using multer middleware in routes(register) to handle data like avatar, coverimage, getting localfilepath by using multer
+using those local path upload on cloudinary using uploadOnCloudinary function which takes localfilepath and upload on cloud[watch code].
+
+16. create user obj on database with given data.
+find in database if registered successfully. if no throw error
+
+17. on completion return api response. [check code]
+
+18. login user : take email, username, password from req.body
+$or: [{username}, {email}] //find by username or email
+
+19. check if password valid, by using custom func in user model
+
+20. write a method to generate access and refreshtoken[check code]
+
+21. after login send cookies securely [check code]
+
+22. logout user::     //to get instance of user which wants to logout we want to design a middleware
+
+23. in auth middleware we can access token of loggedin user from accesstoken of header [check code]. after getting the token verify it. find user from id which was got from token. put the user in req.user
+
+24. in user.route use the middleware in logout route
+
+25. in user.controller logout method find by req.user._id, reset refresh token, clear accessToken, accessToken. send response 
+
+
+
+
+
+
+
+
+
+0wWoSDZSbSGzICj3_3Kz3hBWxEs
+
+
+
+>create directories as required
+
+>in gitignore put those file extension which u dont want to push
+
+> gitkeep used to push empty directory
+
+> at env put the variable u dont want to push
+
+>index.js (outer) : run connect_database function here, use dotenv here
+
+> write connect_database function in index.js of db directory
+
+>use database name from constants
+
+>database connection is always async function
+use async await properly, check syntax
+use try catch, export it
+
+>utils/asyncHandler : to handle error in async functions [check code]
+
+>utils/apierror,apiresponse : to serialize error handling [check code]
+
+>app.js: use express here
