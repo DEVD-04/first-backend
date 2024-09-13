@@ -9,4 +9,4 @@ const storage = multer.diskStorage({    //using diskstorage to hold the data
     }
   })
   // this func will return the localfilepath
-  export const upload = multer({ storage, })
+  export const upload = multer({ storage })
